@@ -1,10 +1,20 @@
 import { IonIcon } from '@ionic/react';
-import { arrowDownOutline } from 'ionicons/icons';
+import { arrowDownOutline, cartOutline } from 'ionicons/icons';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 import { Fade } from 'react-awesome-reveal';
-import { Input, RadioGroup, Radio, Stack, Select, Tabs, TabList, TabPanels, Tab, TabPanel, useToast } from '@chakra-ui/react';
+import { Input, RadioGroup, Radio, Stack, Select, Tabs, TabList, TabPanels, Tab, TabPanel, useToast,   
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Modal,
+  ModalCloseButton,
+  Button,
+  useDisclosure } from '@chakra-ui/react';
 interface AllItemsProps {
     scrollToNext: () => void;
   }
@@ -20,9 +30,11 @@ interface AllItemsProps {
     const [sortValue, setSortValue] = useState<string>('price-asc');
     const [floatRange, setFloatRange] = useState<string>('0.0-1.0');
     const [priceRange, setPriceRange] = useState<string>('0-10000');
-  
     const toast = useToast();
-  
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [selectedItem, setSelectedItem] = useState<any>(null); 
+
+
     useEffect(() => {
       axios
         .get('http://localhost:4000/items')
@@ -85,21 +97,11 @@ interface AllItemsProps {
             });
         }
       };
-      const handleResetFilters = () => {
-        setItems(initialItems); 
-        setFloatRange('0.0-1.0'); 
-        setPriceRange('0-10000'); 
-        setApiRadioValue('all'); 
       
-        toast({
-          title: 'Filtros resetados.',
-          description: 'Você voltou ao estado inicial sem filtros aplicados.',
-          status: 'info',
-          duration: 3000,
-          isClosable: true,
-        });
+      const handleItemClick = (item: any) => {
+        setSelectedItem(item); 
+        onOpen(); 
       };
-      
     
   
     const sortedItems = [...items]
@@ -218,21 +220,44 @@ interface AllItemsProps {
                   <option style={{ color: 'black' }} value="float-asc">Float - Menor para Maior</option>
                   <option style={{ color: 'black' }} value="float-desc">Float - Maior para Menor</option>
                 </Select>
-        <ItemsContainer>
-          <Fade triggerOnce cascade damping={0.1}>
-            {sortedItems.map((item) => (
-              <ItemCard key={item.id}>
-                <div>
-                  <img src={item.image} alt={item.name} />
-                  <h3>{item.name}</h3>
-                  <p>Categoria: {item.category}</p>
-                  <p>Preço: ${item.price}</p>
-                  <p>Float: {item.float}</p>
-                </div>
-              </ItemCard>
-            ))}
-          </Fade>
-        </ItemsContainer>
+                <ItemsContainer>
+        <Fade triggerOnce cascade damping={0.1}>
+          {sortedItems.map((item) => (
+            <ItemCard onClick={() => handleItemClick(item)} key={item.id}>
+              <div>
+                <img src={item.image} alt={item.name} />
+                <h3>{item.name}</h3>
+                <p>Preço: ${item.price}</p>
+                <p>Float: {item.float}</p>
+              </div>
+            </ItemCard>
+          ))}
+        </Fade>
+      </ItemsContainer>
+
+      <Modal size={'xl'}  isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay backdropFilter='blur(10px) hue-rotate(45deg)' />
+        <ModalContent bg="gray.800" color="white">
+          {selectedItem && (
+            <>
+              <ModalHeader>{selectedItem.name}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <img src={selectedItem.image} alt={selectedItem.name} style={{ width: '100%' }} />
+                <h1>Preço: ${selectedItem.price}</h1>
+                <h2>Float: {selectedItem.float}</h2>
+              </ModalBody>
+              <ModalFooter>
+              <Link href="https://www.cskinstore.com" passHref>
+                <Button colorScheme="green" as="a" leftIcon={<IonIcon icon={cartOutline} style={{ fontSize: '2rem', color: 'white' }} />}>
+                  Comprar
+                </Button>
+              </Link>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       </FirstSection>
     );
   };
@@ -321,6 +346,7 @@ const ItemCard = styled.div`
     width: 100%;
     height: auto;
     border-radius: 8px;
+    transition: all .2s;
   }
 
   h3 {
@@ -335,6 +361,9 @@ const ItemCard = styled.div`
 
   &:hover{
     box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+    img{
+        rotate: 15deg;
+    }
   }
 `;
 

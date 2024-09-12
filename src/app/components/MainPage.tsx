@@ -67,7 +67,7 @@ const MainPage: React.FC<MainPageProps> = ({ scrollToNext }) => {
     text-shadow: -0.01em -0.01em 0.01em #000;
     text-shadow: -0.01em -0.01em 0.01em #000;
     animation: rise 1s ease-in-out 0.5s forwards;
-
+    font-weight: bold;
     @keyframes rise {
         to {
             text-shadow: 0em 0.01em #ffa500, 0em 0.02em #ffa500, 0em 0.02em 0.03em #ffa500,
