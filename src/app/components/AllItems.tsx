@@ -103,7 +103,10 @@ interface AllItemsProps {
         onOpen(); 
       };
     
-  
+      const calculateFloatPosition = (float: string) => {
+        const floatValue = parseFloat(float);
+        return (floatValue * 100); // Converte o float para uma porcentagem
+      };
     const sortedItems = [...items]
       .filter((item) => {
         const matchName = item.name.toLowerCase().includes(value);
@@ -246,6 +249,9 @@ interface AllItemsProps {
                 <img src={selectedItem.image} alt={selectedItem.name} style={{ width: '100%' }} />
                 <h1>Preço: ${selectedItem.price}</h1>
                 <h2>Float: {selectedItem.float}</h2>
+                <GradientBar>
+                  <Arrow style={{left: `${calculateFloatPosition(selectedItem.float)}%` }} />
+                </GradientBar>
               </ModalBody>
               <ModalFooter>
               <Link href="https://www.cskinstore.com" passHref>
@@ -263,6 +269,26 @@ interface AllItemsProps {
   };
   
   export default AllItems;
+
+  const GradientBar = styled.div`
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to right, green 0%, yellow 50%, red 100%);
+  position: relative;
+  border-radius: 10px;
+  margin-top: 10px;
+`;
+
+const Arrow = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid white;
+  position: absolute;
+  top: 15px;
+  transform: translateX(-50%);
+`;
 
   const ButtonFilter = styled.button`
       cursor: pointer;
