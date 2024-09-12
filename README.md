@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+<p align="center">
+  <a href="https://nextjs.org/" target="blank"><img src="https://nextjs.org/static/favicon/favicon-32x32.png" width="100" alt="Next.js Logo" /></a>
+</p>
 
-First, run the development server:
+<p align="center">Frontend da aplicação <strong>CSkinStore</strong>, desenvolvido com <a href="https://nextjs.org/" target="_blank">Next.js</a>, <a href="https://chakra-ui.com/" target="_blank">Chakra UI</a>, <a href="https://axios-http.com/" target="_blank">Axios</a> e <a href="https://react-awesome-reveal.com/" target="_blank">React Awesome Reveal</a>, oferecendo uma interface responsiva e interativa para a listagem de skins de CS:GO.</p>
+
+<p align="center">
+<a href="https://www.npmjs.com/package/next" target="_blank"><img src="https://img.shields.io/npm/v/next.svg" alt="Next.js Version" /></a>
+<a href="https://www.npmjs.com/package/next" target="_blank"><img src="https://img.shields.io/npm/l/next.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/package/next" target="_blank"><img src="https://img.shields.io/npm/dm/next.svg" alt="NPM Downloads" /></a>
+</p>
+
+## Descrição
+
+Este projeto fornece o frontend da aplicação **CSkinStore**. Ele foi construído utilizando **Next.js** para renderização do lado do cliente/servidor, **Chakra UI** para componentes estilizados, **Axios** para integração com a API do backend e **React Awesome Reveal** para animações elegantes na interface. A interface permite listar, filtrar e ordenar skins de CS:GO com base em parâmetros como nome, categoria, preço e float.
+
+## Tecnologias Utilizadas
+
+- **Next.js**: Framework React para renderização de páginas do lado do cliente e servidor.
+- **Chakra UI**: Biblioteca de componentes para interfaces modernas e acessíveis.
+- **Axios**: Biblioteca para realizar requisições HTTP à API do backend.
+- **React Awesome Reveal**: Biblioteca para animações e transições elegantes.
+- **TypeScript**: Adição de tipagem estática ao projeto.
+
+## Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Executando a Aplicação
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# desenvolvimento
+$ npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# produção
+$ npm run build
+$ npm run start
+```
 
-## Learn More
+A aplicação estará disponível localmente em [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+## Funcionalidades
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Filtros Locais**: A aplicação permite que os usuários filtrem skins localmente, buscando por nome, categoria e ordenando por preço ou float.
+- **Filtros pela API**: A aplicação também permite filtrar diretamente via chamadas à API, ajustando parâmetros como float, preço e categoria.
+- **Scroll Infinito**: A página principal apresenta diferentes seções, e o conteúdo adicional pode ser acessado à medida que o usuário desce pela página.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Componentes Importantes
 
-## Deploy on Vercel
+### `MainPage.tsx`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A página principal do frontend, onde as skins são exibidas e os filtros são aplicados.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### `AllItems.tsx`
+
+Um componente responsável por exibir a lista de skins, permitindo a aplicação de filtros locais e via API. Inclui integração com Axios para buscar os itens no backend.
+
+### `Filtros Locais`
+
+Permite filtrar itens no frontend por nome, categoria e ordenação (preço ou float).
+
+### `Filtros pela API`
+
+Envia requisições à API para filtrar os itens diretamente no backend, retornando apenas as skins que correspondem aos filtros aplicados.
+
+## Configuração de Ambiente
+
+Crie um arquivo `.env.local` na raiz do projeto para configurar a URL da API:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:4000
+```
+
+Isso permite que o frontend se comunique com o backend da aplicação.
